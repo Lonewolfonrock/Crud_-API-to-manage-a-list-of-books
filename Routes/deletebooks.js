@@ -7,7 +7,7 @@ router.use(express.json());
 router.delete("/books/:id", async (req, res) => {  // Delete book
     const id = req.params.id;
     try {
-        const existingBook = books.find(book => book.id === id);
+        const existingBook = books.findIndex(book => book.id === id);
         if (existingBook) {
             books.splice(existingBook, 1);
             res.status(200).json("Book deleted successfully."); 
