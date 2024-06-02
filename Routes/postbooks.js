@@ -10,25 +10,22 @@ router.post("/books/", async (req, res) => { // adding books
     const {title, author, year } = req.body;
     
     
-    // Check for missing properties
-    if (!title || !author || !year) {
+    if (!title || !author || !year ) {
         return res.status(422).send("Missing property");
     }
 
-     let nextID = 1;
-     const lastbook = books[books.length - 1];
-     nextID = parseInt(lastbook.id) + 1;
-    
-    
-    
-    // Generate book data
-    const bookData = { id: `${nextID}`, title, author, year };
+    let nextID = 1;
+    if(books.length>0){
+        const lastbook = books[books.length - 1];    // Auto incrementing ID
+        nextID = parseInt(lastbook.id) + 1;
+     }
 
-    // Check for existing book
+    const bookData = { id: `${nextID}`, title, author, year };
     const existingBook = books.find(book => book.title === title);
 
     try {
-        if (!existingBook) {
+        if (!existingBook) {    // Check for existing book
+
             books.push(bookData);
             return res.status(200).send("Book added successfully");
         } else {
@@ -40,7 +37,8 @@ router.post("/books/", async (req, res) => { // adding books
 });
 
 
-router.put("/books/:id",async(req,res)=>{ // updating books
+
+router.put("/books/:id",async(req,res)=>{ // updating selected id books
     const id = req.params.id;
     const {title, author, year } = req.body;
 

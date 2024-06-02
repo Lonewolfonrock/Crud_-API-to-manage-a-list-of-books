@@ -4,11 +4,11 @@ const books = require('../Model/model');
 
 router.use(express.json());
 
-router.delete("/books/:id", async (req, res) => {  // Delete book
+router.delete("/books/:id", async (req, res) => {  // Delete book according to id
     const id = req.params.id;
     try {
         const existingBook = books.findIndex(book => book.id === id);
-        if (existingBook) {
+        if (existingBook !== -1) {
             books.splice(existingBook, 1);
             res.status(200).json("Book deleted successfully."); 
         } else {
@@ -18,5 +18,7 @@ router.delete("/books/:id", async (req, res) => {  // Delete book
         res.status(500).send(`Server error ${error}`);
     }
 });
+
+
 
 module.exports = router;
